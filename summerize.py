@@ -41,7 +41,7 @@ def search_wikipedia(keyword, num_sentences=7):
         for sent in sentence_list:
             for word in nltk.word_tokenize(sent.lower()):
                 if word in word_frequencies.keys():
-                    if len(sent.split(' ')) < 30:
+                    if len(sent.split(' ')) < 25:
                         if sent not in sentence_scores.keys():
                             sentence_scores[sent] = word_frequencies[word]
                         else:

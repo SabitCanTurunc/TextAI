@@ -57,4 +57,3 @@ def kelimeleri_koklere_ayir_zemberek(kelimeler):
     kokler = list(set(kokler))  # Tekrar eden kökleri temizleme
     kokler.sort()  # Kökleri sıralıyoruz
     return kokler
-
