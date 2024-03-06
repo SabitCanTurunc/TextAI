@@ -3,6 +3,7 @@ from collections import Counter
 from zemberek import TurkishMorphology, TurkishTokenizer, TurkishSentenceNormalizer
 from nltk.corpus import stopwords as nltk_stopwords
 from summerize import *
+from wiki_search import *
 
 # SENTENCE NORMALIZATION
 # Cümle normalizasyonu için nesne oluşturuluyor

@@ -1,20 +1,7 @@
-import wikipedia
+
 import re
 import nltk
 import heapq
-
-def search_wikipedia(keyword):
-    try:
-        # Wikipedia API'sini kullanarak makaleyi çekme
-        wikipedia.set_lang("tr")  # Türkçe Wikipedia için dil ayarı
-        article = wikipedia.page(keyword)
-        return article.content
-
-    except wikipedia.exceptions.PageError:
-        return "Arama sonuçları bulunamadı."
-
-    except wikipedia.exceptions.DisambiguationError:
-        return "Arama sonuçları bulunamadı."
 
 def summarize_article(article_text, num_sentences=7):
     ##### Ön İşleme
@@ -59,11 +46,4 @@ def summarize_article(article_text, num_sentences=7):
     summary = ' '.join(summary_sentences)
     return summary
 
-# # Anahtar kelimeyi kullanıcıdan al
-# keyword = input("Anahtar kelimeyi girin: ")
-# article_text = search_wikipedia(keyword)
-# if article_text != "Arama sonuçları bulunamadı.":
-#     summary = summarize_article(article_text)
-#     print(summary)
-# else:
-#     print(article_text)
+
