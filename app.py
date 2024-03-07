@@ -1,44 +1,23 @@
-import mysql.connector
-from dataPreprocessing import *
-from collections import Counter
-from zemberek import TurkishMorphology, TurkishTokenizer, TurkishSentenceNormalizer
-from nltk.corpus import stopwords as nltk_stopwords
-from summerize import *
-from wiki_search import *
-from dataBase import *
+from flask import Flask, render_template, request, redirect, url_for
+from data_processing import analyze_text, save_to_database
 
-# SENTENCE NORMALIZATION
-morphology = TurkishMorphology.create_with_defaults()
-normalizer = TurkishSentenceNormalizer(morphology)
+app = Flask(__name__)
 
-metinler = []
-while True:
-    metin = input("Lütfen bir metin girin veya çıkmak için 'q' tuşuna basın: ")
-    if metin.lower() == 'q':
-        break
-    metinler.append(metin)
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-for index, metin in enumerate(metinler):
-    normalized_metin = normalizer.normalize(metin)
-    ana_konu_kelimesi, ana_konu_sayisi, yardimci_konular = anahtar_kelimeleri_bul(normalized_metin)
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    if request.method == 'POST':
+        text = request.form['text']
+        analysis_result = analyze_text(text)
+        save_to_database(text, analysis_result)
+        return render_template('result.html', text=text, analysis_result=analysis_result)
 
-    print(f"\nMetin {index + 1} Analizi:")
-    print(f"Metin {index + 1} özeti")
-    print(summarize_article(metin))
-    print("\nAna Konu ve Tekrar Sayısı:")
-    print(f"{ana_konu_kelimesi}: {ana_konu_sayisi}")
-    print("\nYardımcı Konular ve Tekrar Sayıları:")
-    for kelime, sayi in yardimci_konular:
-        print(f"{kelime}: {sayi}")
+@app.route('/return_to_index', methods=['GET'])
+def return_to_index():
+    return redirect(url_for('index'))
 
-    keyword = ana_konu_kelimesi
-    print("\nBenzer konular: ")
-    article_text = search_wikipedia(keyword[0:])
-    if article_text != "Arama sonuçları bulunamadı.":
-        summary = summarize_article(article_text)
-        print(summary)
-    else:
-        print(article_text)
-
-    # Veritabanına kaydetme
-    save_to_database(metin, ana_konu_kelimesi, ana_konu_sayisi, yardimci_konular, summary)
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #333;
+        }
+        h2 {
+            color: #007bff;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        p {
+            color: #555;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 15px 30px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analiz Sonuçları</h1>
+    <h2>Girilen Metin</h2>
+    <p>{{ text }}</p>
+    <h2>Özet:</h2>
+    <p>{{ analysis_result.sum_text }}</p>
+    <h2>Ana Konu:</h2>
+    <p>{{ analysis_result.ana_konu_kelimesi }}</p>
+    <h2>Ana Konu Tekrar Sayısı:</h2>
+    <p>{{ analysis_result.ana_konu_sayisi }}</p>
+    <h2>Yardımcı Konular</h2>
+    <ul>
+    {% for konu, sayi in analysis_result.yardimci_konular %}
+        <li>{{ konu }}: {{ sayi }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Analiz Özeti:</h2>
+    <p>{{ analysis_result.summary }}</p>
+
+    <form action="/" method="get">
+        <button type="submit">Yeni Metin Gir</button>
+    </form>
+</body>
+</html>
